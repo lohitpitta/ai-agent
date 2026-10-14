@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerability Scan Report - 20261014120341696417</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            background: #10b981;
+            margin-bottom: 10px;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            color: #111827;
+        }
+        .scan-id {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #111827;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .summary-card {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .summary-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #111827;
+        }
+        .summary-card .label {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .finding-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        .finding-item.confirmed {
+            border-left: 4px solid #ef4444;
+            background: #fef2f2;
+        }
+        .finding-item.ambiguous {
+            border-left: 4px solid #f59e0b;
+            background: #fffbeb;
+        }
+        .finding-item.failed {
+            border-left: 4px solid #6b7280;
+            background: #f3f4f6;
+        }
+        .finding-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .dependency-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .dependency-version {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .advisory-list {
+            margin-top: 10px;
+        }
+        .advisory-item {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        .advisory-id {
+            font-weight: bold;
+            color: #dc2626;
+        }
+        .advisory-summary {
+            margin-top: 5px;
+            color: #374151;
+        }
+        .direct-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .transitive-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e5e7eb;
+            color: #374151;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .metadata-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .metadata-table th, .metadata-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .metadata-table th {
+            background: #f9fafb;
+            font-weight: 600;
+        }
+        .limitations {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .limitations h3 {
+            margin-top: 0;
+            color: #92400e;
+        }
+        .limitations ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .limitations li {
+            color: #92400e;
+            margin-bottom: 5px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="status-badge">NO_VULNERABILITIES_FOUND</div>
+        <h1>Vulnerability Scan Report</h1>
+        <div class="scan-id">Scan ID: 20261014120341696417</div>
+    </div>
+    
+    <div class="section">
+        <h2>Executive Summary</h2>
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="value">6</div>
+                <div class="label">Total Dependencies</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" style="color: #ef4444;">0</div>
+                <div class="label">Confirmed Vulnerabilities</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" style="color: #f59e0b;">0</div>
+                <div class="label">Ambiguous Findings</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" style="color: #6b7280;">0</div>
+                <div class="label">Failed Lookups</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Scan Metadata</h2>
+        <table class="metadata-table">
+            <tr>
+                <th>Project Path</th>
+                <td>D:\AI AGENT\tests\fixtures\project</td>
+            </tr>
+            <tr>
+                <th>Started At</th>
+                <td>2026-10-14T12:03:41.696417</td>
+            </tr>
+            <tr>
+                <th>Completed At</th>
+                <td>In progress</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>in_progress</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="section">
+        <h2>Confirmed Vulnerabilities (0)</h2>
+        <div class="empty-state">No findings in this category</div>
+    </div>
+    
+    <div class="section">
+        <h2>Ambiguous Findings (0)</h2>
+        <div class="empty-state">No findings in this category</div>
+    </div>
+    
+    <div class="section">
+        <h2>Failed/Unchecked Dependencies (0)</h2>
+        <div class="empty-state">No findings in this category</div>
+    </div>
+    
+    <div class="section">
+        <h2>Dependencies with No Vulnerabilities (6)</h2>
+        
+            <div class="finding-item none">
+                <div class="finding-header">
+                    <div>
+                        <span class="dependency-name">express</span>
+                        <span class="dependency-version">@4.18.2</span>
+                        <span class="direct-badge">Direct</span>
+                    </div>
+                </div>
+                <div style="color: #6b7280; font-size: 13px; margin-bottom: 10px;">
+                    Source: D:\AI AGENT\tests\fixtures\project\backend\package-lock.json
+                </div>
+            </div>
+            <div class="finding-item none">
+                <div class="finding-header">
+                    <div>
+                        <span class="dependency-name">lodash</span>
+                        <span class="dependency-version">@4.17.21</span>
+                        <span class="direct-badge">Direct</span>
+                    </div>
+                </div>
+                <div style="color: #6b7280; font-size: 13px; margin-bottom: 10px;">
+                    Source: D:\AI AGENT\tests\fixtures\project\backend\package-lock.json
+                </div>
+            </div>
+            <div class="finding-item none">
+                <div class="finding-header">
+                    <div>
+                        <span class="dependency-name">axios</span>
+                        <span class="dependency-version">@1.4.0</span>
+                        <span class="direct-badge">Direct</span>
+                    </div>
+                </div>
+                <div style="color: #6b7280; font-size: 13px; margin-bottom: 10px;">
+                    Source: D:\AI AGENT\tests\fixtures\project\client\package-lock.json
+                </div>
+            </div>
+            <div class="finding-item none">
+                <div class="finding-header">
+                    <div>
+                        <span class="dependency-name">lodash</span>
+                        <span class="dependency-version">@4.17.21</span>
+                        <span class="transitive-badge">Transitive</span>
+                    </div>
+                </div>
+                <div style="color: #6b7280; font-size: 13px; margin-bottom: 10px;">
+                    Source: D:\AI AGENT\tests\fixtures\project\client\package-lock.json
+                </div>
+            </div>
+            <div class="finding-item none">
+                <div class="finding-header">
+                    <div>
+                        <span class="dependency-name">react</span>
+                        <span class="dependency-version">@18.2.0</span>
+                        <span class="direct-badge">Direct</span>
+                    </div>
+                </div>
+                <div style="color: #6b7280; font-size: 13px; margin-bottom: 10px;">
+                    Source: D:\AI AGENT\tests\fixtures\project\frontend\package-lock.json
+                </div>
+            </div>
+            <div class="finding-item none">
+                <div class="finding-header">
+                    <div>
+                        <span class="dependency-name">lodash</span>
+                        <span class="dependency-version">@4.17.21</span>
+                        <span class="transitive-badge">Transitive</span>
+                    </div>
+                </div>
+                <div style="color: #6b7280; font-size: 13px; margin-bottom: 10px;">
+                    Source: D:\AI AGENT\tests\fixtures\project\frontend\package-lock.json
+                </div>
+            </div>
+    </div>
+    
+    <div class="section">
+        <h2>Scan Limitations</h2>
+        <div class="limitations">
+            <h3>Important Notes</h3>
+            <ul>
+                <li>This scan only checks npm dependencies</li>
+                <li>Vulnerabilities are based on OSV database at the time of scanning</li>
+                <li>A scan with failed lookups is marked as "partial scan" - some dependencies could not be checked</li>
+                <li>No vulnerabilities found does not guarantee the project is secure</li>
+                <li>Transitive dependencies are included in the scan</li>
+                <li>Version matching uses deterministic semver rules</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div style="text-align: center; color: #6b7280; margin-top: 40px; font-size: 14px;">
+        Generated by Dependency Vulnerability Scanner
+    </div>
+</body>
+</html>
