@@ -25,6 +25,7 @@ class Database:
         self.conn = sqlite3.connect(self.db_path)
         self.conn.row_factory = sqlite3.Row
         self._create_tables()
+        self._migrate_findings_table()
     
     def _create_tables(self):
         """Create all required tables."""
@@ -95,6 +96,50 @@ class Database:
         """)
         
         self.conn.commit()
+
+    def _migrate_findings_table(self):
+        """Add missing columns to existing database tables."""
+        cursor = self.conn.cursor()
+
+        # Migrate findings table
+        cursor.execute("PRAGMA table_info(findings)")
+        finding_columns = {
+            row["name"] for row in cursor.fetchall()
+        }
+
+        finding_required = {
+            "ai_decision_outcome": "TEXT",
+            "ai_decider_used": "TEXT",
+            "verification_evidence": "TEXT",
+            "ai_explanation": "TEXT",
+        }
+
+        for column, column_type in finding_required.items():
+            if column not in finding_columns:
+                cursor.execute(
+                    f"ALTER TABLE findings ADD COLUMN {column} {column_type}"
+                )
+
+        # Migrate scans table
+        cursor.execute("PRAGMA table_info(scans)")
+        scan_columns = {
+            row["name"] for row in cursor.fetchall()
+        }
+
+        scan_required = {
+            "ai_decisions_made": "INTEGER DEFAULT 0",
+            "ai_verifications_performed": "INTEGER DEFAULT 0",
+            "ai_flags_for_review": "INTEGER DEFAULT 0",
+        }
+
+        for column, column_type in scan_required.items():
+            if column not in scan_columns:
+                cursor.execute(
+                    f"ALTER TABLE scans ADD COLUMN {column} {column_type}"
+                )
+
+        self.conn.commit()
+
     
     def create_scan(self, project_path: str) -> str:
         """

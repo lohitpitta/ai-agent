@@ -65,15 +65,17 @@ class DeciderClient:
             
             data = response.json()
             answer = data.get("answers", {}).get("decision", {})
-            
-            # Extract the chosen option
+
             choice = answer.get("choice")
+
             if choice:
-                # Map the choice string to DecisionOutcome enum
                 choice_map = {opt: DecisionOutcome(opt) for opt in options}
                 return choice_map.get(choice)
-            
+
             return None
+
+
+            
             
         except requests.exceptions.RequestException as e:
             print(f"Decider request failed: {e}")

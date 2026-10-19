@@ -6,6 +6,10 @@ CLI entry point for the dependency vulnerability scanner.
 import argparse
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env file from the project root before anything else
+load_dotenv()
 
 from scanner.project_scanner import ProjectScanner
 from vulnerability.osv_client import OSVClient

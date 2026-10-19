@@ -1,5 +1,6 @@
 """
 Amazon Bedrock client for decision-making fallback and explanations.
+Uses Amazon Nova Micro (amazon.nova-micro-v1:0) via the Bedrock Converse API.
 """
 
 import os
@@ -15,14 +16,31 @@ class BedrockClient:
     """Client for Amazon Bedrock (fallback for decision-making)."""
     
     def __init__(self):
-        self.region = os.getenv("AWS_REGION", "us-west-2")
-        self.model_id = os.getenv("BEDROCK_MODEL_ID", "anthropic.claude-3-5-sonnet-20241022-v2:0")
-        
-        # Initialize Bedrock runtime client
+        self.region = os.getenv("AWS_REGION", "ap-southeast-2")
+        self.model_id = os.getenv("BEDROCK_MODEL_ID", "amazon.nova-micro-v1:0")
+
+        # Explicitly read AWS credentials from environment variables
+        # (set via .env file loaded by python-dotenv in app.py)
+        aws_access_key = os.getenv("AWS_ACCESS_KEY_ID")
+        aws_secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+        aws_session_token = os.getenv("AWS_SESSION_TOKEN") or None
+
+        if not aws_access_key or not aws_secret_key:
+            print(
+                "WARNING: AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY not set. "
+                "Bedrock client will not be available."
+            )
+            self.client = None
+            return
+
+        # Initialize Bedrock runtime client with explicit credentials
         try:
             self.client = boto3.client(
                 "bedrock-runtime",
-                region_name=self.region
+                region_name=self.region,
+                aws_access_key_id=aws_access_key,
+                aws_secret_access_key=aws_secret_key,
+                aws_session_token=aws_session_token,
             )
         except Exception as e:
             print(f"Failed to initialize Bedrock client: {e}")

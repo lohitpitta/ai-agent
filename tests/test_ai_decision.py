@@ -3,6 +3,7 @@ Unit tests for AI decision orchestrator and decision outcomes.
 """
 
 import pytest
+import os
 from unittest.mock import Mock, patch
 from ai.decider_client import DeciderClient, DecisionOutcome
 from ai.bedrock_client import BedrockClient
@@ -147,16 +148,31 @@ def test_decider_requires_three_options():
 
 
 @patch('ai.bedrock_client.boto3')
+@patch.dict(os.environ, {
+    "AWS_ACCESS_KEY_ID": "test-access-key",
+    "AWS_SECRET_ACCESS_KEY": "test-secret-key",
+    "AWS_REGION": "ap-southeast-2",
+    "BEDROCK_MODEL_ID": "amazon.nova-micro-v1:0",
+})
 def test_bedrock_client_initialization(mock_boto3):
     """Test Bedrock client initialization."""
+
     mock_client = Mock()
     mock_boto3.client.return_value = mock_client
-    
+
     client = BedrockClient()
-    
-    assert client.region == "us-west-2"
-    assert client.model_id == "anthropic.claude-3-5-sonnet-20241022-v2:0"
+
+    assert client.region == "ap-southeast-2"
+    assert client.model_id == "amazon.nova-micro-v1:0"
     assert client.client == mock_client
+
+    mock_boto3.client.assert_called_once_with(
+        "bedrock-runtime",
+        region_name="ap-southeast-2",
+        aws_access_key_id="test-access-key",
+        aws_secret_access_key="test-secret-key",
+        aws_session_token=None,
+    )
 
 
 @patch('ai.bedrock_client.boto3')
@@ -349,8 +365,9 @@ def test_github_query_by_package(mock_get):
     assert advisories[0].ghsa_id == "GHSA-xxxx"
 
 
+@patch('ai.decider_client.requests.get')
 @patch('ai.decider_client.requests.post')
-def test_decision_orchestrator_continue_to_report_path(mock_post):
+def test_decision_orchestrator_continue_to_report_path(mock_post, mock_get):
     """Test decision orchestrator with CONTINUE_TO_REPORT outcome."""
     mock_response = Mock()
     mock_response.status_code = 200
@@ -364,7 +381,7 @@ def test_decision_orchestrator_continue_to_report_path(mock_post):
         }
     }
     mock_post.return_value = mock_response
-    
+    mock_get.return_value.status_code = 200
     orchestrator = DecisionOrchestrator()
     
     finding = Finding(
@@ -456,8 +473,9 @@ def test_decision_orchestrator_verify_with_another_source_path(mock_get, mock_po
     assert result.verification_evidence["source"] == "github_advisory_api"
 
 
+@patch('ai.decider_client.requests.get')
 @patch('ai.decider_client.requests.post')
-def test_decision_orchestrator_flag_for_review_path(mock_post):
+def test_decision_orchestrator_flag_for_review_path(mock_post, mock_get):
     """Test decision orchestrator with FLAG_FOR_REVIEW outcome."""
     mock_response = Mock()
     mock_response.status_code = 200
@@ -471,7 +489,8 @@ def test_decision_orchestrator_flag_for_review_path(mock_post):
         }
     }
     mock_post.return_value = mock_response
-    
+    mock_get.return_value.status_code = 200
+
     orchestrator = DecisionOrchestrator()
     
     finding = Finding(
