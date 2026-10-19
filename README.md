@@ -1,4 +1,4 @@
-# 🛡️ DepGuard AI
+# Dependency Vulnerability Scanner
 
 ### AI-Powered Dependency Vulnerability Scanner
 
