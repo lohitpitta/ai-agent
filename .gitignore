@@ -30,3 +30,8 @@ ENV/
 .pytest_cache/
 .coverage
 htmlcov/
+reports/*.html
+test-project/
+.env
+.env.*
+!.env.example
